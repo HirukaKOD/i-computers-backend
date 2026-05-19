@@ -2,6 +2,9 @@ import User from "../../models/user.js";
 import bcrypt from "bcrypt";
 import e from "express";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
+
 export async function createUser(req, res){
     try{
         const password = req.body.password;
@@ -45,7 +48,7 @@ export async function loginUser(req, res){
                 isAdmin : user.isAdmin,
                 isBlocked : user.isblocked,
              }
-             const token = jwt.sign(userInfo,"hiraaa123@")
+             const token = jwt.sign(userInfo,process.env.JWT_SECRET)
              res.json({message: "Login successful", token: token})
         }else{
              res.status(401).json({message: "Invalid password"})
